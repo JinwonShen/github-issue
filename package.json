@@ -1,5 +1,5 @@
 {
-  "name": "react-study-0217",
+  "name": "github-issue",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -35,5 +35,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "^3.5.1"
   }
 }
