@@ -1,0 +1,30 @@
+.button {
+  border: none;
+  box-shadow: none;
+  background: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  border: 1px solid #d0d7de;
+}
+
+.selected {
+  background-color: #0969da;
+  color: #fff;
+}
+
+.blueButton {
+  color: #0969da;
+}
+
+.blueButton:disabled {
+  color: #8c959f;
+}
+
+.blueButton:disabled:hover {
+  border: none;
+}

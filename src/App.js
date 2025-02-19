@@ -1,12 +1,15 @@
 import styles from "./App.module.css"
+import Header from "./Header"
+import ListContainer from "./ListContainer"
+import Footer from "./Footer"
 
 function App() {
   return (
     <>
       <div className={styles.nav}>Nav</div>
-      <div className={styles.header}>Header</div>
-      <div className={styles.listContainer}>listContainer</div>
-      <div className={styles.footer}>Footer</div>
+      <Header />
+      <ListContainer />
+      <Footer />
     </>
   )
 }
