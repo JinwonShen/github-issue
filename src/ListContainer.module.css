@@ -1,7 +1,8 @@
 .listContainer {
   padding: 0 32px;
   margin-top: 24px;
-  height: 220px;
+  /* height: 220px; */
+  margin-bottom: 24px;
 }
 
 .topSection {
@@ -31,6 +32,11 @@
 }
 
 .paginationContainer {
+  width: 100%;
   display: flex;  
   justify-content: center;
+}
+
+.link {
+  text-decoration: none;
 }

@@ -6,10 +6,12 @@
   padding: 5px 10px;
   font-size: 14px;
   box-sizing: border-box;
+  margin: 0 2px;
 }
 
 .button:hover {
-  border: 1px solid #d0d7de;
+  /* border: 1px solid #d0d7de; */
+  outline: 1px solid #d0d7de;
 }
 
 .selected {

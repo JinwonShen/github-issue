@@ -1,6 +1,9 @@
-import { useState } from "react"
+import axios from "axios"
+import { useState, useEffect } from "react"
+import { useSearchParams, Link } from "react-router-dom"
 
 import styles from "./ListContainer.module.css"
+import { GITHUB_API } from "./api"
 
 import Button from "./components/Button"
 import ListItem from "./components/ListItem"
@@ -11,10 +14,25 @@ import OpenClosedFilters from "./components/OpenClosedFilter"
 
 export default function ListContainer() {
   const [inputValue, setInputValue] = useState("is:pr is:open")
+  const [checked, setChecked] = useState(false)
   const [list, setList] = useState([])
-  const [page, setPage] = useState(1)
+  const maxPage = 10
 
-  // const MAX_PAGE = getData().totalCount ::: 30 / 100 = 3.3333... 4page..
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = parseInt(searchParams.get("page") ?? "1", 10)
+  const state = searchParams.get("state")
+
+  async function getData(params) {
+    const data = await axios.get(`${GITHUB_API}/repos/facebook/react/issues`, {
+      params,
+    })
+    setList(data.data)
+  }
+
+  useEffect(() => {
+    getData(searchParams)
+  }, [searchParams])
+
   return (
     <>
       <div className={styles.listContainer}>
@@ -24,46 +42,50 @@ export default function ListContainer() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <Button
-            style={{
-              fontSize: "14px",
-              backgroundColor: "green",
-              color: "white",
-            }}
-          >
-            New Issue
-          </Button>
+          <Link to="/new" className={styles.link}>
+            <Button
+              style={{
+                fontSize: "14px",
+                backgroundColor: "green",
+                color: "white",
+              }}
+            >
+              New Issue
+            </Button>
+          </Link>
         </div>
-        <OpenClosedFilters />
+        <OpenClosedFilters
+          isOpenMode={state !== "closed"}
+          onClickMode={(state) => setSearchParams({ state })}
+        />
         <ListItemLayout className={styles.listFilter}>
           <ListFilter
-            onChangeFilter={(filteredData) => {
+            onChangeFilter={(params) => {
               // 필터링된 요소에 맞게 데이터 불러오기
               // const data = getData("필터링된 정보")
               // setList(data)
+              setSearchParams(params)
             }}
           />
         </ListItemLayout>
         <div className={styles.container}>
-          {list.map((listItem, index) => (
+          {list.map((item) => (
             <ListItem
-              key={index}
-              badges={[
-                {
-                  color: "red",
-                  title: "bug",
-                },
-              ]}
+              key={item.id}
+              data={item}
+              checked={checked}
+              onClickPageButton={() => setChecked((checked) => !checked)}
             />
           ))}
-          <ListItem />
         </div>
       </div>
       <div className={styles.paginationContainer}>
         <Pagination
-          maxPage={10}
           currentPage={page}
-          onClickPageButton={(number) => setPage(number)}
+          onClickPageButton={(pageNumber) =>
+            setSearchParams({ page: pageNumber })
+          }
+          maxPage={maxPage}
         />
       </div>
     </>
